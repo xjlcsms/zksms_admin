@@ -1,0 +1,122 @@
+<?php $this->display("public/header.phtml", array()); ?>
+  <?php $this->display("public/sidebar.phtml"); ?>
+    <?php $this->display("public/nav.phtml"); ?>
+    <div class="right_col" role="main">
+      <div class="">
+        <div class="row x_title">
+          <div class="col-md-6">
+            <h3>发送记录</h3>
+          </div>
+        </div>
+        <div class="x_content">
+          <div class="text-muted font-13 m-b-30">
+            <div class="dataTables_wrapper dt-bootstrap no-footer">
+              <div class="row">
+                <div class="col-sm-9">
+                  <form class="search-form">
+                      <span>子账户</span>
+                      <label>
+                        <select class="form-control input-sm" name="userid">
+                            <option value="0">全部</option>
+                            <?php foreach ($this->users as $key =>$value):?>
+                                <option value="<?php echo $key;?>" <?php echo $key==$this->userid?'selected':'';?>><?php echo $value;?></option>
+                            <?php endforeach;?>
+                        </select>
+                      </label>
+                      <label>
+                        <input type="text" class="form-control input-sm" placeholder="手机号" value="<?php echo $this->company;?>" name="company">
+                      </label>
+                      <span>发送状态</span>
+                      <label>
+                          <select class="form-control input-sm" name="status">
+                              <option value="100" <?php echo 100==$this->status?'selected':'';?>>全部</option>
+                              <?php foreach ($this->statusData as $key =>$value):?>
+                                  <option value="<?php echo $key;?>" <?php echo $key==$this->status?'selected':'';?>><?php echo $value;?></option>
+                              <?php endforeach;?>
+                          </select>
+                      </label>
+                      <span>到达状态</span>
+                      <label>
+                          <select class="form-control input-sm" name="report_status">
+                              <option value="100" <?php echo 100==$this->report_status?'selected':'';?>>全部</option>
+                              <option value="0" <?php echo 0==$this->report_status?'selected':'';?>>发送中</option>
+                              <option value="1" <?php echo 1==$this->report_status?'selected':'';?>>已到达</option>
+                              <option value="2" <?php echo 2==$this->report_status?'selected':'';?>>未到达</option>
+                          </select>
+                      </label>
+                      <label>
+                        <input type="text" class="form-control input-sm" placeholder="短信内容" value="<?php echo $this->content;?>" name="content">
+                      </label>
+                      <div class="input-prepend input-group">
+                        <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                        <input type="text" style="width: 200px" name="time" id="reservation" class="form-control" value="">
+                      </div>
+                      <button class="btn btn-primary btn-sm" type="submit">搜索</button>
+                    </form>
+                </div>
+                <div class="col-sm-3">
+                  <div class="dataTables_filter">
+                    <label>
+                      <select class="form-control input-sm" id="selectPage">
+                        <option value="15" <?php echo $pagelimit == 15? 'selected':''?>>15</option>
+                        <option value="20" <?php echo $pagelimit == 20? 'selected':''?>>20</option>
+                        <option value="50" <?php echo $pagelimit == 50? 'selected':''?>>50</option>
+                        <option value="100" <?php echo $pagelimit == 100? 'selected':''?>>100</option>
+                      </select>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <table id="datatable" class="table table-striped table-bordered">
+                    <thead>
+                      <tr>
+                        <th>序号</th>
+                        <th>手机号</th>
+                        <th>短信内容</th>
+                        <th>发送状态</th>
+                        <th>到达状态</th>
+                        <th>状态码</th>
+                        <th>发送时间</th>
+                        <th>计费条数</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                  <?php if(!empty($this->pager->getList())):?>
+                    <?php $mapper = \Mapper\UsersModel::getInstance();?>
+                    <?php foreach ($this->pager->getList() as $key=>$value):?>
+                      <tr>
+                        <td><?php echo $value['id'];?></td>
+                        <td><?php echo $value['phone'];?></td>
+                          <?php if($value['task_id']==0):?>
+                              <td><?php echo $value['content'];?></td>
+                          <?php else: $queueMapper = \Mapper\SmsqueueModel::getInstance();?>
+                              <td><?php echo $queueMapper->getContent($value['task_id']);?></td>
+                          <?php endif;?>
+                        <td><?php echo $this->statusData[$value['status']];?></td>
+                        <td><?php echo $this->reportStatus[$value['report_status']];?></td>
+                        <td><?php echo $value['code'];?></td>
+                        <td><?php echo $value['arrivaled_at']==0?'':date('Y-m-d H:i:s',strtotime($value['arrivaled_at']));?></td>
+                        <td><?php echo $value['billing_count'];?></td>
+                      </tr>
+                    <?php endforeach;?>
+                    </tbody>
+                  <?php else:?>
+                    <tbody>
+                      <tr><td colspan="16">没有找到记录</td></tr>
+                    </tbody>
+                  <?php endif;?>
+                  </table>
+                  <?php echo $this->renderTpl('public/pagination.phtml',array(),'index');?>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/script/job/index.js"></script>
+<?php $this->display("public/footer.phtml"); ?>
