@@ -16,4 +16,9 @@ class SmsTask extends \M\Mapper\MapperAbstract
 
     protected $table = 'sms_task';
 
+    static $sendTypes = array('code'=>'验证码','normal'=>'通知','market'=>'营销');
+
+
+
+
 }

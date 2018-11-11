@@ -77,16 +77,6 @@ class SmsTask extends \M\ModelAbstract {
     protected $_content = '';
 
     /**
-     * 发送的短信类型ID
-     * 
-     * Column Type: tinyint(3) unsigned
-     * Default: 0
-     * 
-     * @var int
-     */
-    protected $_channelTypeId = 0;
-
-    /**
      * 到达率
      * 
      * Column Type: tinyint(3) unsigned
@@ -385,33 +375,6 @@ class SmsTask extends \M\ModelAbstract {
      */
     public function getContent() {
         return $this->_content;
-    }
-
-    /**
-     * 发送的短信类型ID
-     * 
-     * Column Type: tinyint(3) unsigned
-     * Default: 0
-     * 
-     * @param int $channelTypeId
-     * @return \M\Smstask
-     */
-    public function setChannelTypeId($channelTypeId) {
-        $this->_channelTypeId = (int)$channelTypeId;
-        $this->_params['channelTypeId'] = (int)$channelTypeId;
-        return $this;
-    }
-
-    /**
-     * 发送的短信类型ID
-     * 
-     * Column Type: tinyint(3) unsigned
-     * Default: 0
-     * 
-     * @return int
-     */
-    public function getChannelTypeId() {
-        return $this->_channelTypeId;
     }
 
     /**
@@ -770,26 +733,25 @@ class SmsTask extends \M\ModelAbstract {
      */
     public function toArray() {
         return array(
-            'id'            => $this->_id,
-            'userId'        => $this->_userId,
-            'isSys'         => $this->_isSys,
-            'status'        => $this->_status,
-            'sign'          => $this->_sign,
-            'content'       => $this->_content,
-            'channelTypeId' => $this->_channelTypeId,
-            'rate'          => $this->_rate,
-            'createTime'    => $this->_createTime,
-            'updateTime'    => $this->_updateTime,
-            'sendTime'      => $this->_sendTime,
-            'successTime'   => $this->_successTime,
-            'sendTotal'     => $this->_sendTotal,
-            'sendNum'       => $this->_sendNum,
-            'successNum'    => $this->_successNum,
-            'failNum'       => $this->_failNum,
-            'pullNum'       => $this->_pullNum,
-            'fee'           => $this->_fee,
-            'reason'        => $this->_reason,
-            'isDeal'        => $this->_isDeal
+            'id'          => $this->_id,
+            'userId'      => $this->_userId,
+            'isSys'       => $this->_isSys,
+            'status'      => $this->_status,
+            'sign'        => $this->_sign,
+            'content'     => $this->_content,
+            'rate'        => $this->_rate,
+            'createTime'  => $this->_createTime,
+            'updateTime'  => $this->_updateTime,
+            'sendTime'    => $this->_sendTime,
+            'successTime' => $this->_successTime,
+            'sendTotal'   => $this->_sendTotal,
+            'sendNum'     => $this->_sendNum,
+            'successNum'  => $this->_successNum,
+            'failNum'     => $this->_failNum,
+            'pullNum'     => $this->_pullNum,
+            'fee'         => $this->_fee,
+            'reason'      => $this->_reason,
+            'isDeal'      => $this->_isDeal
         );
     }
 

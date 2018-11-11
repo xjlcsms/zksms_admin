@@ -39,6 +39,16 @@ class SmsRecord extends \M\ModelAbstract {
     protected $_taskId = 0;
 
     /**
+     * UserId
+     * 
+     * Column Type: int(11) unsigned
+     * Default: 0
+     * 
+     * @var int
+     */
+    protected $_userId = 0;
+
+    /**
      * 队列号
      * 
      * Column Type: int(11) unsigned
@@ -170,6 +180,33 @@ class SmsRecord extends \M\ModelAbstract {
      */
     public function getTaskId() {
         return $this->_taskId;
+    }
+
+    /**
+     * UserId
+     * 
+     * Column Type: int(11) unsigned
+     * Default: 0
+     * 
+     * @param int $userId
+     * @return \M\Smsrecord
+     */
+    public function setUserId($userId) {
+        $this->_userId = (int)$userId;
+        $this->_params['userId'] = (int)$userId;
+        return $this;
+    }
+
+    /**
+     * UserId
+     * 
+     * Column Type: int(11) unsigned
+     * Default: 0
+     * 
+     * @return int
+     */
+    public function getUserId() {
+        return $this->_userId;
     }
 
     /**
@@ -362,6 +399,7 @@ class SmsRecord extends \M\ModelAbstract {
         return array(
             'id'        => $this->_id,
             'taskId'    => $this->_taskId,
+            'userId'    => $this->_userId,
             'queueId'   => $this->_queueId,
             'channel'   => $this->_channel,
             'smsNo'     => $this->_smsNo,
