@@ -131,7 +131,7 @@ class Login  extends \Business\BusinessAbstract {
         $memberMapper = \M\Mapper\SmsAdmin::getInstance();
         $memberModel = $memberMapper->findByUserName($username);
         if (!$memberModel instanceof \M\SmsAdmin || \Ku\Tool::valid($password, $memberModel->getPassword(), $secure) === false) {
-            return $this->getMsg(23203, false);
+            return $this->getMsg(23203, '账号或密码错误',false);
         }
 
         $lastTime = $memberModel->getUpdateTime();

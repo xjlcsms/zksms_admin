@@ -6,7 +6,7 @@
  * Time: 20:57
  */
 class JobController extends Base\ApplicationController{
-
+    private $_sendTypes = array(0=>'验证码',1=>'行业短信',2=>'营销短信');
     /**
      * 待处理任务列表
      */
